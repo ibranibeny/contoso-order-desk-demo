@@ -1,0 +1,6 @@
+#lookup-form { margin-top: 20px; }
+#lookup-output .od-facts { margin-bottom: 0; }
+#lookup-output dd { margin: 0; }
+#lookup-message:empty { display: none; }
+#lookup-message:not(:empty) { margin-bottom: 16px; }
+#lookup-message.od-alert { display: block; }
