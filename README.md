@@ -37,6 +37,21 @@ git switch solution && npm start   # the finished Order Desk: try ORD-100232, OR
 
 Node.js 24 and Express 5. Tests use the built-in `node --test` runner.
 
+The agent page uses `GET /api/orders/:orderId`: 200 returns
+`{ id, status, lastUpdated, estimatedDelivery }`, 400 rejects invalid numbers,
+and 404 means not found. It displays only the number, status and delivery estimate.
+The lookup API must be integrated separately; this page does not add server routes.
+All submissions, including invalid input (empty input is sent as an encoded space,
+and dot-only path segments are space-padded to prevent browser path normalization),
+make uncached requests so the server-side audit integration can record each attempt.
+Sign-in is provided by the intranet; API authorization, response-field allowlisting,
+and durable audit writes remain server responsibilities. Failed audit writes must
+return an error rather than a successful order payload.
+
+Measure submission-to-result latency against the agreed parent-issue load profile
+after the API and audit integration are available; no numerical performance budget
+has been supplied yet.
+
 ## Branches
 
 | Branch | What it is | Used in |

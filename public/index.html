@@ -7,6 +7,8 @@
   <meta name="description" content="Order Desk helps Contoso customer care agents answer where-is-my-order questions.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="app.css">
+  <script type="module" src="app.js"></script>
 </head>
 <body>
   <a class="od-skip" href="#main">Skip to content</a>
@@ -28,36 +30,43 @@
       <div class="od-shell">
         <p class="od-eyebrow">Customer care</p>
         <h1>Where is my order?</h1>
-        <p class="od-lede">One place for agents to answer order questions. Order lookup is being built and will appear on this page.</p>
+        <p class="od-lede">Look up an order's status and estimated delivery date while helping a customer.</p>
       </div>
     </section>
 
     <div class="od-shell od-stack">
-      <section class="od-card" aria-labelledby="coming-title">
-        <h2 id="coming-title" class="od-card__title">Order lookup is on its way</h2>
-        <p class="od-hint">Agents will type an order number and see the order's status and estimated delivery date.</p>
-        <div class="od-feature-grid" style="margin-top: 20px;">
-          <div class="od-feature">
-            <div class="od-feature__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <section class="od-card" aria-labelledby="lookup-title">
+        <h2 id="lookup-title" class="od-card__title">Look up an order</h2>
+        <form id="lookup-form" novalidate>
+          <div class="od-field">
+            <label for="order-number">Order number</label>
+            <p id="order-hint" class="od-hint">Use ORD- followed by six digits, for example ORD-100231.</p>
+            <div class="od-input-group">
+              <input id="order-number" name="orderId" class="od-input" type="text" autocomplete="off" spellcheck="false" aria-describedby="order-hint lookup-message">
+              <button class="od-btn od-btn--primary" type="submit">Look up order</button>
             </div>
-            <h2>Status at a glance</h2>
-            <p>From payment to delivery, with a clear step-by-step tracker.</p>
           </div>
-          <div class="od-feature">
-            <div class="od-feature__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>
+        </form>
+        <noscript><p>Enable JavaScript to look up an order.</p></noscript>
+      </section>
+      <section id="lookup-output" aria-live="polite" aria-atomic="true" aria-label="Lookup results">
+        <p id="lookup-message" class="od-hint"></p>
+        <div id="order-result" class="od-card" hidden>
+          <h2 class="od-card__title">Order details</h2>
+          <dl class="od-facts">
+            <div class="od-fact">
+              <dt class="od-fact__label">Order number</dt>
+              <dd id="result-number" class="od-fact__value"></dd>
             </div>
-            <h2>Estimated delivery</h2>
-            <p>The date the customer can expect, and when the order last changed.</p>
-          </div>
-          <div class="od-feature">
-            <div class="od-feature__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 8.5 7 10 4-1.5 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
+            <div class="od-fact">
+              <dt class="od-fact__label">Status</dt>
+              <dd id="result-status" class="od-badge"></dd>
             </div>
-            <h2>Private by design</h2>
-            <p>Agents see delivery information only. Payment details stay hidden.</p>
-          </div>
+            <div class="od-fact">
+              <dt class="od-fact__label">Estimated delivery</dt>
+              <dd id="result-delivery" class="od-fact__value"></dd>
+            </div>
+          </dl>
         </div>
       </section>
     </div>
