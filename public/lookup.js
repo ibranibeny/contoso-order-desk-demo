@@ -39,7 +39,7 @@ export function mountLookup(root, request = fetch) {
       if (submission !== latest) return;
       if (response.status === 401 || response.status === 403) {
         announce('Access denied. Sign in with an authorized agent account and try again.', 'danger');
-      } else if (response.status >= 500) {
+      } else if (![200, 400, 404].includes(response.status)) {
         announce('Order lookup is temporarily unavailable. Please try again.', 'danger');
       } else if (validation || response.status === 400) {
         input.setAttribute('aria-invalid', 'true');
