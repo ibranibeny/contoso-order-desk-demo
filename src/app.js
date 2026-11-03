@@ -1,7 +1,7 @@
 import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { isValidOrderId, findOrder } from './orders.js';
+import { isValidOrderId, findOrder, summarizeOrders } from './orders.js';
 
 const dataFile = fileURLToPath(new URL('../data/orders.json', import.meta.url));
 const publicDir = fileURLToPath(new URL('../public', import.meta.url));
@@ -13,6 +13,10 @@ app.use(express.static(publicDir));
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', orders: orders.length });
+});
+
+app.get('/api/summary', (req, res) => {
+  return res.json(summarizeOrders(orders));
 });
 
 app.get('/api/orders/', (req, res) => {

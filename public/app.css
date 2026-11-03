@@ -1,4 +1,8 @@
 #lookup-form { margin-top: 20px; }
+#summary-list { list-style: none; margin: 0; padding: 0; }
+.summary-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e7eb; }
+#summary-total { margin: 12px 0 0; font-weight: 600; }
+#summary-message:empty { display: none; }
 #lookup-output .od-facts { margin-bottom: 0; }
 #lookup-output dd { margin: 0; }
 #lookup-message:empty { display: none; }
