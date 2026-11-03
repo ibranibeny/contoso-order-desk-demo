@@ -21,6 +21,9 @@ features:
   action-tag: '221ba4f4319de6b8e809d1a15528b3ae6a818aa5'
 timeout-minutes: 20
 concurrency:
+  group: feature-builder-${{ inputs.item_number || github.event.issue.number }}
+  cancel-in-progress: false
+  queue: max
   job-discriminator: ${{ inputs.item_number || github.event.issue.number }}
 runtimes:
   node:
