@@ -19,6 +19,8 @@ engine: copilot
 strict: true
 features:
   action-tag: '221ba4f4319de6b8e809d1a15528b3ae6a818aa5'
+# action-tag skips the activation .github checkout, so inline the prompt at compile time.
+inlined-imports: true
 timeout-minutes: 20
 concurrency:
   group: feature-builder-${{ inputs.item_number || github.event.issue.number }}
