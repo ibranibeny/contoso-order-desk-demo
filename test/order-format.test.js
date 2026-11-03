@@ -12,10 +12,14 @@ test('order numbers are normalized and validated with actionable feedback', () =
   assert.doesNotThrow(() => encodeURIComponent(normalizeOrderId('\uD800')));
 });
 
+test('delivery formatting uses a friendly day, abbreviated month and year', () => {
+  assert.equal(formatDelivery('2026-11-05'), '5 Nov 2026');
+});
+
 test('delivery formatting is deterministic and does not invent missing or invalid dates', () => {
-  assert.equal(formatDelivery('2026-11-03'), '3 November 2026');
-  assert.equal(formatDelivery('2026-11-03T00:00:00Z'), '3 November 2026');
-  assert.equal(formatDelivery('2024-02-29'), '29 February 2024');
+  assert.equal(formatDelivery('2026-11-03'), '3 Nov 2026');
+  assert.equal(formatDelivery('2026-11-03T00:00:00Z'), '3 Nov 2026');
+  assert.equal(formatDelivery('2024-02-29'), '29 Feb 2024');
   for (const value of [null, undefined, '', 0, 'invalid', '2026-02-30', '2026-13-01', '2026-1-3']) {
     assert.equal(formatDelivery(value), 'Estimated delivery date unavailable');
   }

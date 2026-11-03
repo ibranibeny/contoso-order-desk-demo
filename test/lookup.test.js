@@ -66,7 +66,7 @@ test('submission shows loading, then only the required order fields', async () =
   assert.equal(ui.get('result-number').textContent, order.id);
   assert.equal(ui.get('result-status').textContent, 'Packed');
   assert.equal(ui.get('result-status').className, 'od-badge od-badge--packed');
-  assert.equal(ui.get('result-delivery').textContent, '3 November 2026');
+  assert.equal(ui.get('result-delivery').textContent, '3 Nov 2026');
   assert.equal(ui.get('lookup-message').textContent, 'Order found.');
 });
 
