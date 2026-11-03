@@ -14,13 +14,17 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', orders: orders.length });
 });
 
-// DELIBERATELY UNSAFE (demo branch demo/not-found-message). It exists only to show
-// code scanning and Copilot Autofix in a pull request. Never merge it.
 app.get('/orders/lookup', (req, res) => {
   const id = req.query.id;
+  if (typeof id !== 'string' || !/^ORD-\d{6}$/.test(id)) {
+    return res.status(400).json({ error: 'Invalid order ID' });
+  }
+
   const order = orders.find((o) => o.id === id);
   if (!order) {
-    return res.send(`<p>No order found for ${id}</p>`);
+    return res.status(404).json({ error: 'Order not found' });
   }
-  res.json(order);
+
+  const { id: orderId, status, estimatedDelivery, lastUpdated } = order;
+  res.json({ id: orderId, status, estimatedDelivery, lastUpdated });
 });
