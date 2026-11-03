@@ -77,6 +77,20 @@ test('GET /api/orders/:orderId returns safe JSON and validates before lookup', a
     assert.deepEqual(source, original);
   });
 
+  await context.test('empty ID returns 400 JSON', async () => {
+    const response = await fetch(baseUrl);
+    assert.equal(response.status, 400);
+    assert.match(response.headers.get('content-type'), /^application\/json\b/);
+    assert.deepEqual(await response.json(), { error: 'Order numbers look like ORD-123456' });
+  });
+
+  await context.test('malformed percent-encoding returns 400 JSON', async () => {
+    const response = await fetch(`${baseUrl}%E0%A4%A`);
+    assert.equal(response.status, 400);
+    assert.match(response.headers.get('content-type'), /^application\/json\b/);
+    assert.deepEqual(await response.json(), { error: 'Order numbers look like ORD-123456' });
+  });
+
   for (const invalidId of invalidIds) {
     await context.test(`invalid ID ${JSON.stringify(invalidId)} returns 400`, async () => {
       const response = await fetch(`${baseUrl}${encodeURIComponent(invalidId)}`);
@@ -98,5 +112,12 @@ test('GET /api/orders/:orderId returns safe JSON and validates before lookup', a
     assert.equal(response.status, 404);
     assert.match(response.headers.get('content-type'), /^application\/json\b/);
     assert.deepEqual(await response.json(), { error: 'Order not found' });
+  });
+
+  await context.test('unknown API route returns JSON', async () => {
+    const response = await fetch(`http://127.0.0.1:${port}/api/unknown`);
+    assert.equal(response.status, 404);
+    assert.match(response.headers.get('content-type'), /^application\/json\b/);
+    assert.deepEqual(await response.json(), { error: 'Not found' });
   });
 });

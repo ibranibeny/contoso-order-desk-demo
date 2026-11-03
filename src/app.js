@@ -15,6 +15,10 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', orders: orders.length });
 });
 
+app.get('/api/orders/', (req, res) => {
+  return res.status(400).json({ error: 'Order numbers look like ORD-123456' });
+});
+
 app.get('/api/orders/:orderId', (req, res) => {
   const { orderId } = req.params;
   if (!isValidOrderId(orderId)) {
@@ -27,4 +31,15 @@ app.get('/api/orders/:orderId', (req, res) => {
   }
 
   return res.json(order);
+});
+
+app.use('/api', (error, req, res, next) => {
+  if (error instanceof URIError) {
+    return res.status(400).json({ error: 'Order numbers look like ORD-123456' });
+  }
+  return next(error);
+});
+
+app.use('/api', (req, res) => {
+  return res.status(404).json({ error: 'Not found' });
 });
